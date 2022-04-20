@@ -1,5 +1,6 @@
 const path = require("path");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = ({ outputFile, assetFile }) => ({
 	entry: path.resolve(__dirname, "src/index.tsx"),
@@ -7,11 +8,15 @@ module.exports = ({ outputFile, assetFile }) => ({
 		path: path.resolve(__dirname, "build"),
 		filename: `js/${outputFile}.js`,
 		chunkFilename: `js/${outputFile}.js`,
+		clean: true,
 	},
 	plugins: [
 		new ESLintPlugin({
 			extensions: [".ts", ".tsx", ".js"],
 			exclude: "node_modules",
+		}),
+		new MiniCssExtractPlugin({
+			filename: `css/${outputFile}.css`,
 		}),
 	],
 	module: {
@@ -27,6 +32,14 @@ module.exports = ({ outputFile, assetFile }) => ({
 				generator: {
 					filename: `asset/${assetFile}[ext]`,
 				},
+			},
+			{
+				test: /\.html$/, //HtmlWebpackPluginがないと動作しない
+				use: ["html-loader"],
+			},
+			{
+				test: /\.css$/,
+				use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
 			},
 		],
 	},
@@ -50,10 +63,10 @@ module.exports = ({ outputFile, assetFile }) => ({
 					chunks: "all",
 					reuseExistingChunk: true,
 				},
-				default: {
-					chunks: "all",
-					reuseExistingChunk: true,
-				},
+				// default: {
+				// 	chunks: "all",
+				// 	reuseExistingChunk: true,
+				// },
 			},
 		},
 	},

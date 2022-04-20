@@ -9,7 +9,7 @@ const App = () => {
 		<>
 			<Hello />
 			<Goodbye />
-			<h1>Hello</h1>
+			<h1 className="text-white ">Hello</h1>
 			<img src={img} />
 		</>
 	);
