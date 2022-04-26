@@ -43,14 +43,14 @@ module.exports = ({ outputFile, assetFile }) => ({
 			},
 			{
 				test: /\.svg$/i,
-				issuer: /\.[jt]sx?$/,
+				issuer: /\.([jt]sx|js|ts)?$/,
 				use: ["@svgr/webpack"],
 			},
 		],
 	},
 	resolve: {
 		modules: [path.resolve(__dirname, "node_modules")],
-		extensions: [".tsx", ".ts,", ".js"],
+		extensions: [".tsx", ".ts", ".js"],
 	},
 	optimization: {
 		splitChunks: {

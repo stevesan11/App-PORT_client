@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { FormInputs } from "../../../model/FormModel";
+import checkValid from "../../../utils/validators";
 
 interface Props {
 	label: string;
@@ -8,6 +9,7 @@ interface Props {
 	type: string;
 	errorText: string;
 	onInput: (key: keyof FormInputs, value: string, isValid: boolean) => void;
+	validators: { type: string; val?: number }[];
 }
 const Input = (props: Props) => {
 	const [formValue, setFormValue] = useState({
@@ -18,9 +20,9 @@ const Input = (props: Props) => {
 
 	const changeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
 		const { target } = e;
+		const isValid = checkValid(target.value, props.validators);
 		setFormValue((prevValue) => {
-			const inputIsvalid = target.value.length > 8;
-			return { ...prevValue, value: target.value, isValid: inputIsvalid };
+			return { ...prevValue, value: target.value, isValid: isValid };
 		});
 	};
 

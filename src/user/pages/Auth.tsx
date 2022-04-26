@@ -3,6 +3,15 @@ import React, { useCallback, useState } from "react";
 import { FormData } from "../../model/FormModel";
 import { FormInputs } from "../../model/FormModel";
 
+import {
+	EmailValidator,
+	MaxLengthValidator,
+	MinLengthValidator,
+	passwordValidator,
+	RequireValidator,
+	UsernameValidator,
+} from "../../utils/validators";
+
 import Button from "../../shared/components/FormElement/Button";
 import Input from "../../shared/components/FormElement/Input";
 
@@ -50,12 +59,11 @@ const Auth = () => {
 		(id: keyof FormInputs, value: string, isValid: boolean) => {
 			let formIsValid = true;
 			setFormData((prev) => {
-				for (const key in prev.inputs) {
+				for (const [key, value] of Object.entries(prev.inputs)) {
 					if (key === id) {
 						formIsValid = formIsValid && isValid;
 					} else {
-						formIsValid =
-							formIsValid && prev.inputs[key as keyof FormInputs].isValid;
+						formIsValid = formIsValid && value.isValid;
 					}
 				}
 
@@ -72,8 +80,6 @@ const Auth = () => {
 		[]
 	);
 
-	console.log(formData);
-
 	return (
 		<div className="top-[calc(100vh-70px)]">
 			<div className="flex justify-center align-middle text-center">
@@ -86,21 +92,39 @@ const Auth = () => {
 							inputId="username"
 							type="text"
 							onInput={inputHandler}
-							errorText="Please enter valid name"
+							errorText="please enter a valid username(5-15 characters)"
+							validators={[
+								RequireValidator(),
+								UsernameValidator(),
+								MinLengthValidator(5),
+								MaxLengthValidator(15),
+							]}
 						/>
 						<Input
 							label="E-Mail"
 							inputId="email"
 							type="email"
 							onInput={inputHandler}
-							errorText="Please enter valid email"
+							errorText="Please enter a valid email"
+							validators={[
+								RequireValidator(),
+								EmailValidator(),
+								MinLengthValidator(6),
+								MaxLengthValidator(320),
+							]}
 						/>
 						<Input
 							label="Password"
 							inputId="password"
 							type="password"
 							onInput={inputHandler}
-							errorText="Please enter valid password"
+							errorText="At least one uppercase letter, one lowercase letter, and one number.(8-30 characters,)"
+							validators={[
+								RequireValidator(),
+								passwordValidator(),
+								MinLengthValidator(8),
+								MaxLengthValidator(20),
+							]}
 						/>
 						<Button type="button" disabled={formData.formIsValid}>
 							Sign Up
