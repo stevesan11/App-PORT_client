@@ -27,7 +27,7 @@ module.exports = ({ outputFile, assetFile }) => ({
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+				test: /\.(eot|ttf|woff|woff2|png|jpg|gif)$/i,
 				type: "asset/resource",
 				generator: {
 					filename: `asset/${assetFile}[ext]`,
@@ -40,6 +40,11 @@ module.exports = ({ outputFile, assetFile }) => ({
 			{
 				test: /\.css$/,
 				use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+			},
+			{
+				test: /\.svg$/i,
+				issuer: /\.[jt]sx?$/,
+				use: ["@svgr/webpack"],
 			},
 		],
 	},

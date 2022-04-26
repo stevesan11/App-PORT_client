@@ -1,16 +1,22 @@
 import React from "react";
-import img from "./images/Screen Shot 2022-04-19 at 9.43.24.png";
-const Hello = React.lazy(() => import("./components/Hello"));
-const Goodbye = React.lazy(() => import("./components/Goodbye"));
+import { Routes, Route } from "react-router-dom";
+
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Auth from "./user/pages/Auth";
 
 const App = () => {
 	console.log("hello");
 	return (
 		<>
-			<Hello />
-			<Goodbye />
-			<h1 className="text-white ">Hello</h1>
-			<img src={img} />
+			<MainNavigation />
+			<main>
+				<Routes>
+					<Route path="/allapp" element={<h1>allapp</h1>} />
+					<Route path="/userId/myapp" element={<h1>myapp</h1>} />
+					<Route path="/userId/add" element={<h1>add</h1>} />
+					<Route path="/authenticate" element={<Auth />} />
+				</Routes>
+			</main>
 		</>
 	);
 };

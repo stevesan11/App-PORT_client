@@ -19,6 +19,7 @@ module.exports = merge(common({ outputFile, assetFile }), {
 		},
 		compress: true,
 		port: 3000,
+		historyApiFallback: true /* /home/hoge に直接リンクすると表示されないためfallbackで対策 */,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
