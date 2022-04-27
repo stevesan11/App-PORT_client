@@ -85,12 +85,12 @@ const Auth = (props: Props) => {
 	};
 
 	return (
-		<Modal show={true}>
-			<button className="block mr-auto" onClick={props.onClose}>
-				<Cancel className="scale-50 fill-black hover:opacity-30" />
+		<Modal show={true} onClose={props.onClose}>
+			<button className="block mr-auto scale-50" onClick={props.onClose}>
+				<Cancel className="fill-black hover:opacity-30" />
 			</button>
-			<div className="flex justify-between items-center px-10">
-				<h2 className="text-3xl font-bold">
+			<div className="flex justify-between items-center sm:px-10">
+				<h2 className="text-2xl lg:text-3xl font-bold ">
 					{loginMode ? "Login" : "Register"}
 				</h2>
 				<Button type="button" btnStyle="switch_btn" onClick={modeChangeHandler}>

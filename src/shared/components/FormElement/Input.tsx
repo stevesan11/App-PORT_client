@@ -50,7 +50,7 @@ const Input = (props: Props) => {
 				type={props.type}
 				autoComplete={props.autoComplete}
 				placeholder={props.placeholder}
-				className="w-1/2 p-1"
+				className="w-full max-w-sm p-1"
 				onChange={changeHandler}
 				onBlur={touchHandler}
 				value={formValue.value}

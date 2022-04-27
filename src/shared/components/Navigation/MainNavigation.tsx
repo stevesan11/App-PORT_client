@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Menu from "../../../images/menu_FILL0_wght400_GRAD0_opsz48.svg";
 
 import NavLinks from "./NavLinks";
-import BackDrop from "../UIElements/BackDrop";
 import SideDrawer from "./SideDrawer";
 import Auth from "../../../user/pages/Auth";
 
@@ -28,7 +27,6 @@ const MainNavigation = () => {
 		<>
 			{drawerIsOpen && (
 				<>
-					<BackDrop onClose={closeDrawerHandler} />
 					<SideDrawer onClose={closeDrawerHandler}>
 						<nav className="h-full">
 							<NavLinks onOpen={openLoginModalHandler} />
@@ -38,7 +36,6 @@ const MainNavigation = () => {
 			)}
 			{loginModalIsOpen && (
 				<>
-					<BackDrop onClose={closeLoginModalHandler} />
 					<Auth onClose={closeLoginModalHandler} />
 				</>
 			)}

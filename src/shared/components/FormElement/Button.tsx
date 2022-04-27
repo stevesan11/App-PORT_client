@@ -22,7 +22,7 @@ const Button = (props: Props) => {
 	return (
 		<button
 			type={props.type}
-			className={`w-1/3 p-2 rounded-md ${btn}`}
+			className={`w-1/2 sm:w-1/3  p-2 rounded-md ${btn}`}
 			disabled={props.disabled}
 			onClick={props.onClick}
 		>
