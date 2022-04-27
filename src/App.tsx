@@ -2,10 +2,8 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import Auth from "./user/pages/Auth";
 
 const App = () => {
-	console.log("hello");
 	return (
 		<>
 			<MainNavigation />
@@ -14,7 +12,6 @@ const App = () => {
 					<Route path="/allapp" element={<h1>allapp</h1>} />
 					<Route path="/userId/myapp" element={<h1>myapp</h1>} />
 					<Route path="/userId/add" element={<h1>add</h1>} />
-					<Route path="/authenticate" element={<Auth />} />
 				</Routes>
 			</main>
 		</>

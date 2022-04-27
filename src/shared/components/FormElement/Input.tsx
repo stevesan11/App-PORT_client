@@ -7,7 +7,9 @@ interface Props {
 	label: string;
 	inputId: string;
 	type: string;
+	autoComplete: string;
 	errorText: string;
+	placeholder?: string;
 	onInput: (key: keyof FormInputs, value: string, isValid: boolean) => void;
 	validators: { type: string; val?: number }[];
 }
@@ -46,6 +48,8 @@ const Input = (props: Props) => {
 			<input
 				id={props.inputId}
 				type={props.type}
+				autoComplete={props.autoComplete}
+				placeholder={props.placeholder}
 				className="w-1/2 p-1"
 				onChange={changeHandler}
 				onBlur={touchHandler}

@@ -4,7 +4,7 @@ export interface FormData {
 }
 
 export interface FormInputs {
-	username: {
+	username?: {
 		value: string;
 		isValid: boolean;
 	};
