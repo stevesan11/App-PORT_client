@@ -1,11 +1,13 @@
 const path = require("path");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = ({ outputFile, assetFile }) => ({
 	entry: path.resolve(__dirname, "src/index.tsx"),
 	output: {
 		path: path.resolve(__dirname, "build"),
+		publicPath: "/",
 		filename: `js/${outputFile}.js`,
 		chunkFilename: `js/${outputFile}.js`,
 		clean: true,
@@ -18,6 +20,7 @@ module.exports = ({ outputFile, assetFile }) => ({
 		new MiniCssExtractPlugin({
 			filename: `css/${outputFile}.css`,
 		}),
+		new Dotenv({ path: "./.env" }),
 	],
 	module: {
 		rules: [
@@ -27,7 +30,7 @@ module.exports = ({ outputFile, assetFile }) => ({
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.(eot|ttf|woff|woff2|png|jpg|gif)$/i,
+				test: /\.(eot|ttf|woff|woff2|png|jpg|gif|jpeg)$/i,
 				type: "asset/resource",
 				generator: {
 					filename: `asset/${assetFile}[ext]`,

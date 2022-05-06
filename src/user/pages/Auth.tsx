@@ -1,9 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 import Cancel from "../../images/cancel_FILL0_wght400_GRAD0_opsz48.svg";
-
-import { FormData } from "../../model/FormModel";
-import { FormInputs } from "../../model/FormModel";
 
 import {
 	EmailValidator,
@@ -12,76 +9,99 @@ import {
 	passwordValidator,
 	RequireValidator,
 	UsernameValidator,
-} from "../../utils/validators";
+} from "../../shared/utils/validators";
+import { useAppDispatch } from "../../redux/hooks";
+import useForm from "../../shared/hooks/form-hook";
 
 import Button from "../../shared/components/FormElement/Button";
 import Input from "../../shared/components/FormElement/Input";
 import Modal from "../../shared/components/UIElements/Modal";
+import { login } from "../../redux/authSlice";
+import { AuthFormInputs } from "../../model/FormModel";
+
+interface User {
+	username: string;
+	email: string;
+	password: string;
+}
+const users: User[] = [
+	{
+		username: "Suzuki",
+		email: "test@test.com",
+		password: "Qwe123123",
+	},
+	{
+		username: "Yuki",
+		email: "test1@test.com",
+		password: "Qwe123123",
+	},
+];
 
 interface Props {
-	onClose: React.MouseEventHandler<Element>;
+	onClose: () => void;
 }
 const Auth = (props: Props) => {
+	const dispatch = useAppDispatch();
 	const [loginMode, setLoginMode] = useState<boolean>(true);
-	const [formData, setFormData] = useState<FormData>({
-		inputs: {
-			email: { value: "", isValid: false },
-			password: { value: "", isValid: false },
-		},
-		formIsValid: false,
-	});
+	const { formData, inputHandler, setFormDataHandler } =
+		useForm<AuthFormInputs>(
+			{
+				email: { value: "", isValid: false },
+				password: { value: "", isValid: false },
+			},
+			false
+		);
 
 	const modeChangeHandler = () => {
 		if (loginMode) {
-			setFormData((prev) => {
-				return {
-					...prev,
-					inputs: { ...prev.inputs, username: undefined },
-					formIsValid: false,
-				};
-			});
-		}
-		if (!loginMode) {
-			setFormData((prev) => {
-				return {
-					...prev,
-					inputs: { ...prev.inputs, username: { value: "", isValid: false } },
-					formIsValid:
-						prev.inputs.email.isValid && prev.inputs.password.isValid,
-				};
-			});
+			setFormDataHandler(
+				{
+					...formData.inputs,
+					username: { value: "", isValid: false },
+				},
+				false
+			);
+		} else if (!loginMode) {
+			setFormDataHandler(
+				{ ...formData.inputs, username: undefined },
+				formData.inputs.email && formData.inputs.password.isValid
+			);
+			console.log(formData);
 		}
 		setLoginMode((prev) => !prev);
 	};
 
-	const inputHandler = useCallback(
-		(id: keyof FormInputs, value: string, isValid: boolean) => {
-			let formIsValid = true;
-			setFormData((prev) => {
-				for (const [key, value] of Object.entries(prev.inputs)) {
-					if (key === id) {
-						formIsValid = formIsValid && isValid;
-					} else {
-						formIsValid = formIsValid && value.isValid;
-					}
-				}
-
-				return {
-					...prev,
-					inputs: {
-						...prev.inputs,
-						[id]: { value: value, isValid: isValid },
-					},
-					formIsValid: formIsValid,
-				};
-			});
-		},
-		[]
-	);
-
 	const submitHandler: React.FormEventHandler = (e) => {
 		e.preventDefault();
-		console.log(formData);
+
+		if (loginMode) {
+			const user: User | undefined = users.find(
+				(user) => user.email === formData.inputs.email.value
+			);
+			if (!user) {
+				throw new Error("Cannnot find user");
+			} else {
+				if (user.password === formData.inputs.password.value) {
+					dispatch(login(formData.inputs.email.value));
+					props.onClose();
+				} else {
+					throw new Error("entered password is invalid");
+				}
+			}
+		}
+		if (!loginMode) {
+			if (!formData.inputs.username?.value) {
+				throw new Error("Please eneter your username");
+			} else {
+				users.push({
+					username: formData.inputs.username.value,
+					email: formData.inputs.email.value,
+					password: formData.inputs.password.value,
+				});
+				dispatch(login(formData.inputs.email.value));
+				props.onClose();
+			}
+		}
 	};
 
 	return (
@@ -100,7 +120,7 @@ const Auth = (props: Props) => {
 			<hr className="my-3" />
 			<form onSubmit={submitHandler}>
 				{!loginMode && (
-					<Input
+					<Input<AuthFormInputs>
 						label="Username"
 						inputId="username"
 						type="text"
@@ -116,7 +136,7 @@ const Auth = (props: Props) => {
 						]}
 					/>
 				)}
-				<Input
+				<Input<AuthFormInputs>
 					label="E-Mail"
 					inputId="email"
 					type="email"
@@ -131,7 +151,7 @@ const Auth = (props: Props) => {
 						MaxLengthValidator(320),
 					]}
 				/>
-				<Input
+				<Input<AuthFormInputs>
 					label="Password"
 					inputId="password"
 					type="password"

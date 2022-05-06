@@ -1,9 +1,9 @@
-export interface FormData {
-	inputs: FormInputs;
+export interface AuthFormData {
+	inputs: AuthFormInputs;
 	formIsValid: boolean;
 }
 
-export interface FormInputs {
+export interface AuthFormInputs {
 	username?: {
 		value: string;
 		isValid: boolean;
@@ -13,6 +13,22 @@ export interface FormInputs {
 		isValid: boolean;
 	};
 	password: {
+		value: string;
+		isValid: boolean;
+	};
+}
+
+export interface AppFormData {
+	inputs: AppFormInputs;
+	formIsValid: boolean;
+}
+
+export interface AppFormInputs {
+	title: {
+		value: string;
+		isValid: boolean;
+	};
+	description: {
 		value: string;
 		isValid: boolean;
 	};

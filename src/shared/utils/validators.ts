@@ -10,6 +10,9 @@ export const EmailValidator = () => ({
 export const passwordValidator = () => ({
 	type: "Password",
 });
+export const NewAppFormValidator = () => ({
+	type: "NewApp",
+});
 export const MinLengthValidator = (val: number) => ({
 	type: "MinLength",
 	val,
@@ -36,6 +39,9 @@ const checkValid = (
 		}
 		if (validator.type === "Password") {
 			isValid = isValid && /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])\w*$/.test(value);
+		}
+		if (validator.type === "NewApp") {
+			isValid = isValid && /^.*$/.test(value);
 		}
 		if (validator.type === "MinLength") {
 			if (!validator.val) {

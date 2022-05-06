@@ -19,7 +19,7 @@ const MainNavigation = () => {
 	const openLoginModalHandler: React.MouseEventHandler = () => {
 		setLoginModalIsOpen(true);
 	};
-	const closeLoginModalHandler: React.MouseEventHandler = () => {
+	const closeLoginModalHandler = (): void => {
 		setLoginModalIsOpen(false);
 	};
 
