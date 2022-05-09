@@ -22,12 +22,12 @@ const AppItem = (props: Props) => {
 	return (
 		<div className="shrink-0 snap-center w-full h-full flex items-center justify-center">
 			<div
-				className="w-full h-full max-w-[1024px] sm:max-h-[calc(100vh-20vh-70px-70px)] border relative"
+				className="w-full h-full max-w-[1024px] sm:max-h-[calc(100vh-20vh-70px-70px)] border bg-gray p-3 sm:rounded-md relative"
 				onClick={clickHandler}
 			>
 				<img src={props.img} className="w-full h-full object-contain" />
 				{isClicked && (
-					<div className="absolute top-0 left-0 w-full h-full flex flex-col gap-5 justify-center items-center bg-black opacity-80">
+					<div className="absolute top-0 left-0 w-full h-full flex flex-col gap-5 justify-center items-center bg-black sm:rounded-md opacity-80">
 						<div className="flex flex-col items-center gap-3 cursor-default">
 							<h2 className="text-2xl lg:text-3xl font-bold">{props.title}</h2>
 							<p className="px-32">{props.description}</p>

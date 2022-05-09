@@ -17,7 +17,7 @@ const Modal = (props: Props) => {
 		<>
 			<BackDrop onClose={props.onClose} />
 			<div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center text-center">
-				<div className="w-screen max-w-[640px] sm:max-h-[calc(100vh-70px-20vh)] p-10 sm:rounded-lg  bg-gray text-black fixed z-[200]">
+				<div className="w-screen max-w-[640px] sm:max-h-[calc(100vh-70px-20vh)] p-10 sm:rounded-lg  bg-gray text-black fixed z-[200] overflow-auto">
 					{props.children}
 				</div>
 			</div>

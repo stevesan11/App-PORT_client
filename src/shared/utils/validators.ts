@@ -13,6 +13,9 @@ export const passwordValidator = () => ({
 export const NewAppFormValidator = () => ({
 	type: "NewApp",
 });
+export const UrlValidator = () => ({
+	type: "Url",
+});
 export const MinLengthValidator = (val: number) => ({
 	type: "MinLength",
 	val,
@@ -42,6 +45,13 @@ const checkValid = (
 		}
 		if (validator.type === "NewApp") {
 			isValid = isValid && /^.*$/.test(value);
+		}
+		if (validator.type === "Url") {
+			isValid =
+				isValid &&
+				/https?:\/\/[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#\u3000-\u30FE\u4E00-\u9FA0\uFF01-\uFFE3]+/g.test(
+					value
+				);
 		}
 		if (validator.type === "MinLength") {
 			if (!validator.val) {

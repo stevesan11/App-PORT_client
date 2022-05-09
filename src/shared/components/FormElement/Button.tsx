@@ -17,6 +17,8 @@ const Button = (props: Props) => {
 	} else if (props.btnStyle === "switch_btn") {
 		btn =
 			"bg-gray text-orange border border-orange cursor-pointer hover:bg-orange hover:opacity-80 hover:text-gray";
+	} else if (props.btnStyle === "upload_btn") {
+		btn = "bg-maroon text-gray";
 	}
 
 	return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import useForm from "../../shared/hooks/form-hook";
 import {
@@ -9,111 +9,64 @@ import {
 	NewAppFormValidator,
 } from "../../shared/utils/validators";
 
-import { AppFormData, AppFormInputs } from "../../model/FormModel";
+import { AppData, AppFormInputs } from "../../model/FormModel";
 
 import Input from "../../shared/components/FormElement/Input";
 import Button from "../../shared/components/FormElement/Button";
 
-import Image1 from "../../images/Screen Shot 2022-04-29 at 12.19.55.png";
-import Image2 from "../../images/Screen Shot 2022-05-02 at 10.49.32.png";
-import Image3 from "../../images/images3.jpeg";
-import Image4 from "../../images/building_takoyaki_yatai.png";
+import ImageUpload from "../../shared/components/FormElement/ImageUpload";
 
-const DUMMY_APP = [
-	{
-		id: "t1",
-		title: "test app",
-		description: "this is a test",
-		img: Image1,
-		url: "https://github.com/stevesan11/",
-		author: {
-			username: "Suzuki",
-			email: "test@test.com",
-			password: "Qwe12321",
-			img: Image3,
-		},
-	},
-	{
-		id: "t2",
-		title: "test app",
-		description: "this is a test",
-		img: Image2,
-		url: "https://github.com/stevesan11/",
-		author: {
-			username: "Suzuki",
-			email: "test@test.com",
-			password: "Qwe12321",
-			img: Image3,
-		},
-	},
-	{
-		id: "t3",
-		title: "test app",
-		description: "this is a test",
-		img: Image1,
-		url: "https://github.com/stevesan11/",
-		author: {
-			id: "u2",
-			username: "Yuki",
-			email: "test1@test.com",
-			password: "Qwe123123",
-			img: Image4,
-		},
-	},
-	{
-		id: "t4",
-		title: "test app",
-		description: "this is a test",
-		img: Image2,
-		url: "https://github.com/stevesan11/",
-		author: {
-			id: "u2",
-			username: "Yuki",
-			email: "test1@test.com",
-			password: "Qwe123123",
-			img: Image4,
-		},
-	},
-];
+import { userList, appList } from "../../DUMMY/DUMMY_DATA";
+import { useAppSelector } from "../../redux/hooks";
 
 const EditApp = () => {
+	const auth = useAppSelector((state) => state.auth);
+	const { userId } = auth;
 	const appId = useParams().appId;
-	const [loadedApp, setLoadedApp] = useState<AppFormData>();
-	const { formData, inputHandler, setFormDataHandler } = useForm<AppFormInputs>(
+	const navigate = useNavigate();
+
+	const [loadedApp, setLoadedApp] = useState<AppData>();
+	const { formData, inputHandler } = useForm<AppFormInputs>(
 		{
-			title: { value: "hello", isValid: false },
-			description: { value: "test is test", isValid: false },
+			image: { value: loadedApp?.image || "", isValid: true },
+			title: { value: loadedApp?.title || "", isValid: true },
+			description: { value: loadedApp?.description || "", isValid: true },
+			url: { value: loadedApp?.title || "", isValid: true },
 		},
-		false
+		true
 	);
 
 	useEffect(() => {
 		const fetchApp = () => {
-			const resultApp = DUMMY_APP.find((app) => app.id === appId);
-			if (!resultApp) {
+			const editApp = appList.find((app) => app.id === appId);
+			if (!editApp) {
 				throw new Error("Not found that app");
 			}
-			setLoadedApp({
-				inputs: {
-					title: { value: resultApp.title, isValid: true },
-					description: { value: resultApp.description, isValid: true },
-				},
-				formIsValid: true,
-			});
-			setFormDataHandler(
-				{
-					title: { value: resultApp.title, isValid: true },
-					description: { value: resultApp.description, isValid: true },
-				},
-				true
-			);
+			setLoadedApp(editApp);
 		};
 		fetchApp();
-	}, [setFormDataHandler, appId]);
+	}, [appId]);
+
+	console.log(loadedApp, formData);
 
 	const submitHandler: React.FormEventHandler = (e) => {
 		e.preventDefault();
-		console.log(formData);
+		const editedApp = {
+			id: Math.random().toString(),
+			image: formData.inputs.image.value,
+			title: formData.inputs.title.value,
+			description: formData.inputs.description.value,
+			url: formData.inputs.url.value,
+			author: userId,
+		};
+		const editAppIndex = appList.findIndex((app) => app.id === appId);
+		const userIndex = userList.findIndex((user) => user.email === userId);
+		const userAppIndex = userList[userIndex].apps.findIndex(
+			(app) => app.id === appId
+		);
+		appList[editAppIndex] = editedApp;
+		userList[userIndex].apps[userAppIndex] = editedApp;
+		navigate("/");
 	};
 
 	return (
@@ -124,6 +77,12 @@ const EditApp = () => {
 					<hr className="my-3" />
 					{loadedApp && (
 						<form className="text-lg lg:text-xl" onSubmit={submitHandler}>
+							<ImageUpload<AppFormInputs>
+								inputId="image"
+								onInput={inputHandler}
+								initialImg={loadedApp.image}
+								initialValid={true}
+							/>
 							<Input<AppFormInputs>
 								label="Title"
 								inputId="title"
@@ -137,7 +96,7 @@ const EditApp = () => {
 									MinLengthValidator(3),
 									MaxLengthValidator(30),
 								]}
-								initialValue={loadedApp.inputs.title.value}
+								initialValue={loadedApp.title}
 								initialValid={true}
 							/>
 							<Input<AppFormInputs>
@@ -154,7 +113,7 @@ const EditApp = () => {
 									MaxLengthValidator(300),
 								]}
 								textarea={{ rows: 8 }}
-								initialValue={loadedApp.inputs.description.value}
+								initialValue={loadedApp.description}
 								initialValid={true}
 							/>
 							<Button

@@ -12,30 +12,17 @@ import {
 } from "../../shared/utils/validators";
 import { useAppDispatch } from "../../redux/hooks";
 import useForm from "../../shared/hooks/form-hook";
-
-import Button from "../../shared/components/FormElement/Button";
-import Input from "../../shared/components/FormElement/Input";
-import Modal from "../../shared/components/UIElements/Modal";
 import { login } from "../../redux/authSlice";
+
 import { AuthFormInputs } from "../../model/FormModel";
 
-interface User {
-	username: string;
-	email: string;
-	password: string;
-}
-const users: User[] = [
-	{
-		username: "Suzuki",
-		email: "test@test.com",
-		password: "Qwe123123",
-	},
-	{
-		username: "Yuki",
-		email: "test1@test.com",
-		password: "Qwe123123",
-	},
-];
+import Modal from "../../shared/components/UIElements/Modal";
+import Input from "../../shared/components/FormElement/Input";
+import Button from "../../shared/components/FormElement/Button";
+import ImageUpload from "../../shared/components/FormElement/ImageUpload";
+
+import { UserData } from "../../model/FormModel";
+import { userList } from "../../DUMMY/DUMMY_DATA";
 
 interface Props {
 	onClose: () => void;
@@ -58,12 +45,13 @@ const Auth = (props: Props) => {
 				{
 					...formData.inputs,
 					username: { value: "", isValid: false },
+					image: { value: "", isValid: false },
 				},
 				false
 			);
 		} else if (!loginMode) {
 			setFormDataHandler(
-				{ ...formData.inputs, username: undefined },
+				{ ...formData.inputs, username: undefined, image: undefined },
 				formData.inputs.email && formData.inputs.password.isValid
 			);
 			console.log(formData);
@@ -75,7 +63,7 @@ const Auth = (props: Props) => {
 		e.preventDefault();
 
 		if (loginMode) {
-			const user: User | undefined = users.find(
+			const user: UserData | undefined = userList.find(
 				(user) => user.email === formData.inputs.email.value
 			);
 			if (!user) {
@@ -93,10 +81,13 @@ const Auth = (props: Props) => {
 			if (!formData.inputs.username?.value) {
 				throw new Error("Please eneter your username");
 			} else {
-				users.push({
+				userList.push({
+					id: Math.random().toString(),
 					username: formData.inputs.username.value,
 					email: formData.inputs.email.value,
 					password: formData.inputs.password.value,
+					image: formData.inputs.image?.value || "",
+					apps: [],
 				});
 				dispatch(login(formData.inputs.email.value));
 				props.onClose();
@@ -120,21 +111,28 @@ const Auth = (props: Props) => {
 			<hr className="my-3" />
 			<form onSubmit={submitHandler}>
 				{!loginMode && (
-					<Input<AuthFormInputs>
-						label="Username"
-						inputId="username"
-						type="text"
-						autoComplete="username"
-						placeholder="app_port"
-						errorText="please enter a valid username(3-20 characters a-zA-Z_0-9)"
-						onInput={inputHandler}
-						validators={[
-							RequireValidator(),
-							UsernameValidator(),
-							MinLengthValidator(3),
-							MaxLengthValidator(20),
-						]}
-					/>
+					<>
+						<ImageUpload<AuthFormInputs>
+							inputId="image"
+							styleType="newForm"
+							onInput={inputHandler}
+						/>
+						<Input<AuthFormInputs>
+							label="Username"
+							inputId="username"
+							type="text"
+							autoComplete="username"
+							placeholder="app_port"
+							errorText="please enter a valid username(3-20 characters a-zA-Z_0-9)"
+							onInput={inputHandler}
+							validators={[
+								RequireValidator(),
+								UsernameValidator(),
+								MinLengthValidator(3),
+								MaxLengthValidator(20),
+							]}
+						/>
+					</>
 				)}
 				<Input<AuthFormInputs>
 					label="E-Mail"
