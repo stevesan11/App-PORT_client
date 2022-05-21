@@ -7,7 +7,7 @@ const useForm = <T>(initialState: T, initialValidity: boolean) => {
 	});
 
 	const inputHandler = useCallback(
-		(id: keyof T, value: string, isValid: boolean) => {
+		(id: keyof T, value: string | File, isValid: boolean) => {
 			let formIsValid = true;
 			setFormData((prev) => {
 				for (const [key, value] of Object.entries(prev.inputs)) {

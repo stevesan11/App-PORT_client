@@ -13,6 +13,10 @@ export const passwordValidator = () => ({
 export const NewAppFormValidator = () => ({
 	type: "NewApp",
 });
+export const DeleteAppFormValidator = (val: string) => ({
+	type: "DeleteApp",
+	val,
+});
 export const UrlValidator = () => ({
 	type: "Url",
 });
@@ -27,7 +31,7 @@ export const MaxLengthValidator = (val: number) => ({
 
 const checkValid = (
 	value: string,
-	validators: { type: string; val?: number }[]
+	validators: { type: string; val?: string | number }[]
 ) => {
 	let isValid = true;
 	for (const validator of validators) {
@@ -46,6 +50,11 @@ const checkValid = (
 		if (validator.type === "NewApp") {
 			isValid = isValid && /^.*$/.test(value);
 		}
+		if (validator.type === "DeleteApp") {
+			if (!validator.val || typeof validator.val !== "string")
+				throw new Error("parametor is undefined");
+			isValid = isValid && value === validator.val;
+		}
 		if (validator.type === "Url") {
 			isValid =
 				isValid &&
@@ -54,15 +63,13 @@ const checkValid = (
 				);
 		}
 		if (validator.type === "MinLength") {
-			if (!validator.val) {
-				throw new Error("parametor is undefined");
-			}
+			if (!validator.val || typeof validator.val !== "number")
+				throw new Error("parametor is error");
 			isValid = isValid && value.trim().length >= validator.val;
 		}
 		if (validator.type === "MaxLength") {
-			if (!validator.val) {
+			if (!validator.val || typeof validator.val !== "number")
 				throw new Error("parametor is undefined");
-			}
 			isValid = isValid && value.trim().length <= validator.val;
 		}
 	}

@@ -8,6 +8,13 @@ module.exports = {
 				black: "#1B120F",
 				orange: "#F89D13",
 			},
+			zIndex: {
+				backdrop: "100",
+				modal: "200",
+				errorBackdrop: "300",
+				errorModal: "400",
+				loadinSpinner: "500",
+			},
 		},
 	},
 	plugins: [],
