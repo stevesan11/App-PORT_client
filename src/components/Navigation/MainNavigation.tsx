@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
-import Menu from "../../images/menu_FILL0_wght400_GRAD0_opsz48.svg";
 
+
+import Modal from "../UIElements/Modal";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
 import Auth from "../../pages/user/Auth";
-import Modal from "../UIElements/Modal";
+
+import Menu from "../../images/menu_FILL0_wght400_GRAD0_opsz48.svg";
 
 const MainNavigation = () => {
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);

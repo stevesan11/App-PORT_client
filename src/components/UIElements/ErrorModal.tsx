@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import CancelButton from "../FormElement/CancelButton";
+
 import Modal from "./Modal";
+import CancelButton from "../FormElement/CancelButton";
 
 interface Props {
 	show: boolean;

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
 import { useAppSelector } from "../../shared/redux/hooks";
+import useAxios from "../../shared/hooks/axios-hook";
 
 import { IResponseUser } from "../../shared/types/DataModel";
 
-import AppList from "../../components/app/AppList";
-import Modal from "../../components/UIElements/Modal";
-import DeleteApp from "./DeleteApp";
-import useAxios from "../../shared/hooks/axios-hook";
-import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
 import ErrorModal from "../../components/UIElements/ErrorModal";
+import Modal from "../../components/UIElements/Modal";
+import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
+import AppList from "../../components/app/AppList";
+import DeleteApp from "./DeleteApp";
 
 const Myapp = () => {
 	const auth = useAppSelector((state) => state.auth);

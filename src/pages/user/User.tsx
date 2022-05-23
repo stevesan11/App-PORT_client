@@ -4,12 +4,12 @@ import useAxios from "../../shared/hooks/axios-hook";
 
 import { IResponseUsers } from "../../shared/types/DataModel";
 
-import AppList from "../../components/app/AppList";
 import Modal from "../../components/UIElements/Modal";
 import ErrorModal from "../../components/UIElements/ErrorModal";
-import DeleteApp from "../app/DeleteApp";
-import CardY from "../../components/UIElements/CardY";
 import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
+import CardY from "../../components/UIElements/CardY";
+import AppList from "../../components/app/AppList";
+import DeleteApp from "../app/DeleteApp";
 
 const User = () => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);

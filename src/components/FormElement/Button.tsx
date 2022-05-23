@@ -22,7 +22,7 @@ const Button = (props: Props) => {
 				"bg-gray text-orange border border-orange cursor-pointer hover:bg-orange hover:opacity-80 hover:text-gray";
 			break;
 		case "upload_btn":
-			btnStyle = "bg-maroon text-gray";
+			btnStyle = "bg-maroon text-gray hover:opacity-80";
 			break;
 		case "cancel_btn":
 			btnStyle = "bg-orange cursor-pointer hover:opacity-80";

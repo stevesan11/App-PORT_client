@@ -1,5 +1,6 @@
 import React from "react";
-import Button from "../FormElement/Button";
+import { Link } from "react-router-dom";
+
 import CardX from "../UIElements/CardX";
 import Content from "../UIElements/Content";
 import AppItem from "./AppItem";
@@ -30,9 +31,12 @@ const AppList = (props: Props) => {
 						<h2 className="text-2xl lg:text-3xl font-bold">
 							No app found. May be create one?
 						</h2>
-						<Button type="button" btnStyle="upload_btn">
+						<Link
+							to={"/app/new"}
+							className="text-center bg-maroon text-gray w-1/2 sm:w-1/3  p-2 rounded-md hover:bg-orange hover:opacity-80"
+						>
 							Share App
-						</Button>
+						</Link>
 					</div>
 				</div>
 			</Content>

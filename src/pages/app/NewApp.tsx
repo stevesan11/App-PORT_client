@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppSelector } from "../../shared/redux/hooks";
 import useForm from "../../shared/hooks/form-hook";
+import useAxios from "../../shared/hooks/axios-hook";
 import {
 	RequireValidator,
 	MinLengthValidator,
@@ -12,14 +13,13 @@ import {
 } from "../../shared/utils/validators";
 
 import { AppFormInputs } from "../../shared/types/FormModel";
+import { IResponseApp } from "../../shared/types/DataModel";
 
-import Input from "../../components/FormElement/Input";
-import Button from "../../components/FormElement/Button";
-import ImageUpload from "../../components/FormElement/ImageUpload";
-import useAxios from "../../shared/hooks/axios-hook";
 import ErrorModal from "../../components/UIElements/ErrorModal";
 import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
-import { IResponseApp } from "../../shared/types/DataModel";
+import Button from "../../components/FormElement/Button";
+import Input from "../../components/FormElement/Input";
+import ImageUpload from "../../components/FormElement/ImageUpload";
 
 const NewApp = () => {
 	const auth = useAppSelector((state) => state.auth);

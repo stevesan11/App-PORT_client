@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { useAppSelector } from "../../shared/redux/hooks";
+import useAxios from "../../shared/hooks/axios-hook";
 import useForm from "../../shared/hooks/form-hook";
 import {
 	RequireValidator,
@@ -11,17 +13,13 @@ import {
 } from "../../shared/utils/validators";
 
 import { AppFormInputs } from "../../shared/types/FormModel";
-
-import Input from "../../components/FormElement/Input";
-import Button from "../../components/FormElement/Button";
-
-import ImageUpload from "../../components/FormElement/ImageUpload";
-
-import { useAppSelector } from "../../shared/redux/hooks";
 import { IResponseApp } from "../../shared/types/DataModel";
-import useAxios from "../../shared/hooks/axios-hook";
+
 import ErrorModal from "../../components/UIElements/ErrorModal";
 import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
+import Button from "../../components/FormElement/Button";
+import Input from "../../components/FormElement/Input";
+import ImageUpload from "../../components/FormElement/ImageUpload";
 
 const EditApp = () => {
 	const appId = useParams().appId;
@@ -42,7 +40,6 @@ const EditApp = () => {
 			method: "get",
 			url: `${process.env.DEV_URL}/api/app/${appId}`,
 		});
-
 
 	useEffect(() => {
 		if (!response?.data.app) return;
@@ -82,11 +79,7 @@ const EditApp = () => {
 
 	return (
 		<>
-			<ErrorModal
-				show={!!error}
-				onClose={clearError}
-				message={error}
-			/>
+			<ErrorModal show={!!error} onClose={clearError} message={error} />
 			<div className="w-screen h-[calc(100vh-70px-70px)]">
 				<div className="w-full h-full flex items-center justify-center text-center">
 					<div className="w-full h-full max-w-[1024px] sm:max-h-[calc(100vh-20vh-70px-70px)] gap-5 p-10 sm:rounded-lg  bg-gray text-maroon overflow-auto">

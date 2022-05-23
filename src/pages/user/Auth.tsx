@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 
+import { useAppDispatch } from "../../shared/redux/hooks";
+import { login } from "../../shared/redux/authSlice";
+import useForm from "../../shared/hooks/form-hook";
+import useAxios from "../../shared/hooks/axios-hook";
+
 import {
 	EmailValidator,
 	MaxLengthValidator,
@@ -8,20 +13,17 @@ import {
 	RequireValidator,
 	UsernameValidator,
 } from "../../shared/utils/validators";
-import { useAppDispatch } from "../../shared/redux/hooks";
-import useForm from "../../shared/hooks/form-hook";
-import { login } from "../../shared/redux/authSlice";
 
 import { AuthFormInputs } from "../../shared/types/FormModel";
-
-import Input from "../../components/FormElement/Input";
-import Button from "../../components/FormElement/Button";
-import ImageUpload from "../../components/FormElement/ImageUpload";
-import CancelButton from "../../components/FormElement/CancelButton";
-import useAxios from "../../shared/hooks/axios-hook";
 import { IResponseAuth } from "../../shared/types/DataModel";
+
+
 import ErrorModal from "../../components/UIElements/ErrorModal";
 import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
+import Button from "../../components/FormElement/Button";
+import CancelButton from "../../components/FormElement/CancelButton";
+import Input from "../../components/FormElement/Input";
+import ImageUpload from "../../components/FormElement/ImageUpload";
 
 interface Props {
 	onClose: () => void;

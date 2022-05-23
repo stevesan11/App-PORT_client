@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { useAppSelector } from "../../shared/redux/hooks";
+
 import Content from "../UIElements/Content";
 
 interface Props {
