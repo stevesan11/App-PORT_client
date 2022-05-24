@@ -6,7 +6,7 @@ export const store = configureStore({
 });
 
 // Can still subscribe to the store
-store.subscribe(() => console.log(store.getState()));
+// store.subscribe(() => console.log(store.getState()));
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
