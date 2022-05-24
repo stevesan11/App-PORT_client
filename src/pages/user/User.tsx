@@ -21,7 +21,7 @@ const User = () => {
 		true,
 		{
 			method: "get",
-			url: `${process.env.DEV_URL}/api/user`,
+			url: `${process.env.BACKEND_URL}/api/user`,
 		}
 	);
 

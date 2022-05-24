@@ -33,7 +33,7 @@ const AppItem = (props: Props) => {
 	return (
 		<Content onClick={clickHandler}>
 			<img
-				src={`${process.env.DEV_URL}/${img}`}
+				src={`${process.env.BACKEND_URL}/${img}`}
 				className="w-full h-full object-contain"
 			/>
 			{isClicked && (
@@ -44,7 +44,7 @@ const AppItem = (props: Props) => {
 					</div>
 					<div className="flex items-center gap-3">
 						<img
-							src={`${process.env.DEV_URL}/${userImg}`}
+							src={`${process.env.BACKEND_URL}/${userImg}`}
 							className="w-10 h-10 rounded-full"
 						/>
 						<p className="cursor-default">created by {username}</p>

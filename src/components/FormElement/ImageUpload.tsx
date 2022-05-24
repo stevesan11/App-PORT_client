@@ -19,7 +19,7 @@ const ImageUpload = <T,>(props: Props<T>) => {
 
 	useEffect(() => {
 		if (props.initialImg) {
-			setPrevUrl(`${process.env.DEV_URL}/${props.initialImg}`);
+			setPrevUrl(`${process.env.BACKEND_URL}/${props.initialImg}`);
 		}
 		if (props.initialValid) {
 			setIsValid(props.initialValid);

@@ -4,11 +4,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppSelector } from "./shared/redux/hooks";
 
 import MainNavigation from "./components/Navigation/MainNavigation";
-import User from "./pages/user/User";
-import Myapp from "./pages/app/UserApp";
-import NewApp from "./pages/app/NewApp";
-import EditApp from "./pages/app/EditApp";
-import Footer from "./components/Footer/Footer";
+import LoadingScreen from "./components/UIElements/LoadingScreen";
+const User = React.lazy(() => import("./pages/user/User"));
+const Myapp = React.lazy(() => import("./pages/app/UserApp"));
+const NewApp = React.lazy(() => import("./pages/app/NewApp"));
+const EditApp = React.lazy(() => import("./pages/app/EditApp"));
+const Footer = React.lazy(() => import("./components/Footer/Footer"));
 
 const App = () => {
 	const auth = useAppSelector((state) => state.auth);
@@ -35,9 +36,11 @@ const App = () => {
 
 	return (
 		<>
-			<MainNavigation />
-			<main>{routes}</main>
-			<Footer />
+			<React.Suspense fallback={<LoadingScreen />}>
+				<MainNavigation />
+				<main>{routes}</main>
+				<Footer />
+			</React.Suspense>
 		</>
 	);
 };

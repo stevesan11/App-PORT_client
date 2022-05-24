@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 
@@ -25,5 +26,6 @@ module.exports = merge(common({ outputFile, assetFile }), {
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
 		}),
+		new Dotenv({ path: "./.env" }),
 	],
 });

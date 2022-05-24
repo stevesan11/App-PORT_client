@@ -38,7 +38,7 @@ const EditApp = () => {
 	const { response, error, loading, sendRequest, clearError } =
 		useAxios<IResponseApp>(true, {
 			method: "get",
-			url: `${process.env.DEV_URL}/api/app/${appId}`,
+			url: `${process.env.BACKEND_URL}/api/app/${appId}`,
 		});
 
 	useEffect(() => {
@@ -67,7 +67,7 @@ const EditApp = () => {
 		try {
 			await sendRequest({
 				method: "patch",
-				url: `${process.env.DEV_URL}/api/app/${appId}`,
+				url: `${process.env.BACKEND_URL}/api/app/${appId}`,
 				data: form,
 				headers: { Authorization: `Bearer ${token}` },
 			});

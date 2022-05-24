@@ -23,9 +23,16 @@ const Myapp = () => {
 		true,
 		{
 			method: "get",
-			url: `${process.env.DEV_URL}/api/app/user/${userId}`,
+			url: `${process.env.BACKEND_URL}/api/app/user/${userId}`,
 		}
 	);
+
+	// useEffect(() => {
+	// 	sendRequest({
+	// 		method: "get",
+	// 		url: `${process.env.BACKEND_URL}/api/app/user/${userId}`,
+	// 	});
+	// }, []);
 
 	const openModalHandler = (appId: string, title: string) => {
 		setDeleteAppData({ appId, title });

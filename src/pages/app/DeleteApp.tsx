@@ -30,7 +30,7 @@ interface Props {
 const DeleteApp = (props: Props) => {
 	const navigate = useNavigate();
 	const auth = useAppSelector((state) => state.auth);
-	const { userId, token } = auth;
+	const { token, userId } = auth;
 	const { appId, title } = props.appData;
 	const { formData, inputHandler } = useForm<DeleteAppFormInputs>(
 		{
@@ -40,8 +40,6 @@ const DeleteApp = (props: Props) => {
 	);
 	const { response, error, loading, sendRequest, clearError } =
 		useAxios<IResponseApp>(false);
-
-	console.log(response, error, loading);
 
 	useEffect(() => {
 		if (!response?.data.app) return;
@@ -53,10 +51,13 @@ const DeleteApp = (props: Props) => {
 		try {
 			await sendRequest({
 				method: "delete",
-				url: `${process.env.DEV_URL}/api/app/${appId}`,
+				url: `${process.env.BACKEND_URL}/api/app/${appId}`,
 				headers: { Authorization: `Bearer ${token}` },
 			});
-			navigate(`/${userId}/app`, { replace: true });
+			navigate("0", { replace: true });
+			setTimeout(() => {
+				navigate(`/${userId}/app`, { replace: true });
+			});
 		} catch (error) {
 			console.log(error);
 		}

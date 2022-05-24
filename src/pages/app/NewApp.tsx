@@ -49,7 +49,7 @@ const NewApp = () => {
 		try {
 			await sendRequest({
 				method: "post",
-				url: `${process.env.DEV_URL}/api/app/`,
+				url: `${process.env.BACKEND_URL}/api/app/`,
 				data: form,
 				headers: { Authorization: `Bearer ${token}` },
 			});

@@ -17,7 +17,6 @@ import {
 import { AuthFormInputs } from "../../shared/types/FormModel";
 import { IResponseAuth } from "../../shared/types/DataModel";
 
-
 import ErrorModal from "../../components/UIElements/ErrorModal";
 import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
 import Button from "../../components/FormElement/Button";
@@ -78,7 +77,7 @@ const Auth = (props: Props) => {
 			try {
 				await sendRequest({
 					method: "post",
-					url: `${process.env.DEV_URL}/api/user/login`,
+					url: `${process.env.BACKEND_URL}/api/user/login`,
 					data: {
 						email: email.value,
 						password: password.value,
@@ -100,7 +99,7 @@ const Auth = (props: Props) => {
 			try {
 				await sendRequest({
 					method: "post",
-					url: `${process.env.DEV_URL}/api/user/signup`,
+					url: `${process.env.BACKEND_URL}/api/user/signup`,
 					data: form,
 					headers: { "content-type": "multipart/form-data" },
 				});

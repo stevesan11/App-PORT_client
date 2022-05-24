@@ -16,6 +16,8 @@ const useAxios = <T>(initialSend: boolean, config?: IConfig) => {
 	const [error, setError] = useState<string>();
 	const [loading, setLoading] = useState<boolean>();
 
+	const controller = new AbortController();
+
 	const sendRequest = useCallback(async (config: IConfig) => {
 		const { method, url, data, headers } = config;
 		setLoading(true);
@@ -25,6 +27,7 @@ const useAxios = <T>(initialSend: boolean, config?: IConfig) => {
 				url,
 				data,
 				headers,
+				signal: controller.signal,
 			});
 			if (!response) {
 				throw new Error("Something went wrong");
@@ -49,24 +52,6 @@ const useAxios = <T>(initialSend: boolean, config?: IConfig) => {
 				setError(error.message);
 				throw new Error("Something went wrong");
 			}
-			// if (axios.isAxiosError(error)) {
-			// 	if (error.response?.data) {
-			// 		const Error = error as AxiosError<IAxiosErrorData, IConfig>;
-			// 		if (Error.response?.data.message) {
-			// 			setError(Error.response.data.message);
-			// 		} else {
-			// 			setError(error.message);
-			// 			console.log("Could not find response error message");
-			// 		}
-			// 	} else {
-			// 		const Error = error as AxiosError<unknown, IConfig>;
-			// 		setError(Error.message);
-			// 	}
-			// 	throw error;
-			// } else if (error instanceof Error) {
-			// 	setError(error.message);
-			// 	throw new Error("Something went wrong");
-			// }
 		}
 	}, []);
 
@@ -75,8 +60,12 @@ const useAxios = <T>(initialSend: boolean, config?: IConfig) => {
 	}, []);
 
 	useEffect(() => {
-		if (!initialSend || !config) return;
-		sendRequest(config);
+		if (initialSend && config) {
+			sendRequest(config);
+		}
+		return () => {
+			controller.abort();
+		};
 	}, []);
 
 	return { response, error, loading, sendRequest, clearError };

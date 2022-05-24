@@ -1,7 +1,7 @@
 const path = require("path");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const Dotenv = require("dotenv-webpack");
+
 
 module.exports = ({ outputFile, assetFile }) => ({
 	entry: path.resolve(__dirname, "src/index.tsx"),
@@ -20,7 +20,6 @@ module.exports = ({ outputFile, assetFile }) => ({
 		new MiniCssExtractPlugin({
 			filename: `css/${outputFile}.css`,
 		}),
-		new Dotenv({ path: "./.env" }),
 	],
 	module: {
 		rules: [
