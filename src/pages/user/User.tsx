@@ -10,6 +10,7 @@ import LoadingSpinner from "../../components/UIElements/LoadingSpinner";
 import CardY from "../../components/UIElements/CardY";
 import AppList from "../../components/app/AppList";
 import DeleteApp from "../app/DeleteApp";
+import Content from "../../components/UIElements/Content";
 
 const User = () => {
 	const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -34,6 +35,22 @@ const User = () => {
 		setModalIsOpen(false);
 	};
 
+	const itemList = response?.data.user.map((user) => {
+		if (user.apps.length === 0) return;
+		return (
+			<AppList
+				key={user.username}
+				user={{
+					userId: user._id,
+					username: user.username,
+					userImg: user.image,
+				}}
+				items={user.apps}
+				onDelete={openModalHandler}
+			/>
+		);
+	});
+
 	return (
 		<>
 			<ErrorModal show={!!error} onClose={clearError} message={error} />
@@ -42,24 +59,18 @@ const User = () => {
 			</Modal>
 			<CardY>
 				{loading && !error && <LoadingSpinner />}
-				{!loading &&
-					!error &&
-					response?.data.user &&
-					response.data.user.map((user) => {
-						if (user.apps.length === 0) return;
-						return (
-							<AppList
-								key={user.username}
-								user={{
-									userId: user._id,
-									username: user.username,
-									userImg: user.image,
-								}}
-								items={user.apps}
-								onDelete={openModalHandler}
-							/>
-						);
-					})}
+				{!loading && !error && itemList}
+				{(!loading && !error && !itemList) || (
+					<Content>
+						<div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-gray sm:rounded-md">
+							<div className="flex flex-col items-center gap-10 cursor-default text-maroon">
+								<h2 className="text-2xl lg:text-3xl font-bold">
+									No app found. May be create one?
+								</h2>
+							</div>
+						</div>
+					</Content>
+				)}
 			</CardY>
 		</>
 	);
