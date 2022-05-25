@@ -64,7 +64,6 @@ const Auth = (props: Props) => {
 				{ ...formData.inputs, username: undefined, image: undefined },
 				formData.inputs.email && formData.inputs.password.isValid
 			);
-			console.log(formData);
 		}
 		setLoginMode((prev) => !prev);
 	};
