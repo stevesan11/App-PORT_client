@@ -174,7 +174,7 @@ const Auth = (props: Props) => {
 						RequireValidator(),
 						passwordValidator(),
 						MinLengthValidator(8),
-						MaxLengthValidator(20),
+						MaxLengthValidator(60),
 					]}
 				/>
 				<Button

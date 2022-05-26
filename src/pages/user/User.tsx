@@ -35,21 +35,23 @@ const User = () => {
 		setModalIsOpen(false);
 	};
 
-	const itemList = response?.data.user.map((user) => {
-		if (user.apps.length === 0) return;
-		return (
-			<AppList
-				key={user.username}
-				user={{
-					userId: user._id,
-					username: user.username,
-					userImg: user.image,
-				}}
-				items={user.apps}
-				onDelete={openModalHandler}
-			/>
-		);
-	});
+	const itemList = response?.data.user
+		.map((user) => {
+			if (user.apps.length === 0) return;
+			return (
+				<AppList
+					key={user.username}
+					user={{
+						userId: user._id,
+						username: user.username,
+						userImg: user.image,
+					}}
+					items={user.apps}
+					onDelete={openModalHandler}
+				/>
+			);
+		})
+		.filter(Boolean);
 
 	return (
 		<>
@@ -60,7 +62,7 @@ const User = () => {
 			<CardY>
 				{loading && !error && <LoadingSpinner />}
 				{!loading && !error && itemList}
-				{(!loading && !error && !itemList) || (
+				{!loading && !error && itemList?.length === 0 && (
 					<Content>
 						<div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-gray sm:rounded-md">
 							<div className="flex flex-col items-center gap-10 cursor-default text-maroon">
